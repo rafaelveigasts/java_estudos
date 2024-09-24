@@ -15,6 +15,7 @@ import com.rafaelveiga.projeto.modules.company.repositories.CompanyRepository;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 
 @Service
 public class AuthCompanyUseCase {
@@ -42,15 +43,19 @@ public class AuthCompanyUseCase {
 
     Algorithm algorithm = Algorithm.HMAC256(secret);
 
+    var expiresIn = Instant.now().plus(Duration.ofDays(1));
+
     var token = JWT
         .create()
         .withIssuer("auth0")
         .withSubject(exists.getId().toString())
-        .withExpiresAt(Instant.now().plus(Duration.ofDays(1)))
+        .withClaim("roles", Arrays.asList("COMPANY"))
+        .withExpiresAt(expiresIn)
         .sign(algorithm);
 
     return AuthCompanyResponseDTO.builder()
         .access_token(token)
+        .expiresIn(expiresIn.getEpochSecond())
         .build();
 
   }
