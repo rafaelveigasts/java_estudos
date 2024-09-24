@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.rafaelveiga.projeto.modules.candidate.CandidateEntity;
 import com.rafaelveiga.projeto.modules.candidate.CandidateRepository.CandidateRepository;
 import com.rafaelveiga.projeto.modules.candidate.dto.CandidateProfileResponseDTO;
 
@@ -23,7 +22,7 @@ public class ProfileCandidateUseCase {
     return CandidateProfileResponseDTO.builder()
         .description(candidate.getDescription())
         .email(candidate.getEmail())
-        .id(candidate.getId().toString())
+        .id(candidate.getId())
         .name(candidate.getName())
         .username(candidate.getUsername())
         .build();
